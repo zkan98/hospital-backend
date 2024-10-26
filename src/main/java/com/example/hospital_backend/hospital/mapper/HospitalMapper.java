@@ -1,5 +1,6 @@
 package com.example.hospital_backend.hospital.mapper;
 
+import com.example.hospital_backend.hospital.dto.HospitalApiResponseDTO;
 import com.example.hospital_backend.hospital.dto.HospitalDTO;
 import com.example.hospital_backend.hospital.entity.Hospital;
 import org.mapstruct.Mapper;
@@ -12,4 +13,6 @@ public interface HospitalMapper {
 
     Hospital toHospital(HospitalDTO hospitalDTO);
 
+    // 추가된 매핑 메서드
+    Hospital toHospital(HospitalApiResponseDTO.Item item);
 }

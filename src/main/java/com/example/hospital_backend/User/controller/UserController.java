@@ -32,7 +32,6 @@ public class UserController {
         UserDTO userDTO = userService.findUserById(id);
         return ResponseEntity.ok(userDTO);
 
-
     }
 
     @PostMapping

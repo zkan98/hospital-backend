@@ -47,10 +47,6 @@ public class ReviewService {
     }
 
     public ReviewDTO saveReview(ReviewDTO reviewDTO) {
-        // 별점 유효성 검사 (1-5)
-        if (reviewDTO.getRating() < 1 || reviewDTO.getRating() > 5) {
-            throw new InvalidReviewException("Rating must be between 1 and 5.");
-        }
 
         // 병원 존재 여부 확인
         Hospital hospital = hospitalRepository.findById(reviewDTO.getHospitalId())
@@ -66,7 +62,25 @@ public class ReviewService {
         review.setUser(user);
 
         Review savedReview = reviewRepository.save(review);
+
+        // 병원의 평균 평점 계산 및 반영
+        List<Review> reviews = reviewRepository.findByHospitalId(hospital.getId());
+        double averageRating = reviews.stream()
+            .mapToInt(Review::getRating)
+            .average()
+            .orElse(0.0);
+
+        hospital.setRating(averageRating); // 병원 엔티티에 평균 평점 설정
+        hospitalRepository.save(hospital); // 병원 엔티티 업데이트
+
         return reviewMapper.toReviewDTO(savedReview);
+    }
+
+
+    // 리뷰 ID로 리뷰를 조회하는 메서드
+    public Review getReviewById(Long reviewId) {
+        return reviewRepository.findById(reviewId)
+            .orElseThrow(() -> new ResourceNotFoundException("Review not found with ID: " + reviewId));
     }
 
     // 리뷰가 존재하는지 확인하는 메서드 (Repository에서 호출)

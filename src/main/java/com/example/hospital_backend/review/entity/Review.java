@@ -4,6 +4,7 @@ import com.example.hospital_backend.User.entity.User;
 import com.example.hospital_backend.hospital.entity.Hospital;
 import com.example.hospital_backend.photo.entity.Photo;
 import jakarta.persistence.*;
+import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.Date;
@@ -35,6 +36,7 @@ public class Review {
     @CreationTimestamp
     private Date createdAt;
 
-    @OneToMany(mappedBy = "review")
-    private List<Photo> photos;
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Photo> photos = new ArrayList<>();
+
 }

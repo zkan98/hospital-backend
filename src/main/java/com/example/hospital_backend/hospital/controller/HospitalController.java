@@ -1,43 +1,20 @@
 package com.example.hospital_backend.hospital.controller;
 
-import com.example.hospital_backend.hospital.dto.HospitalDTO;
-import com.example.hospital_backend.hospital.entity.Specialty;
-import com.example.hospital_backend.hospital.service.HospitalService;
-import java.util.List;
+import com.example.hospital_backend.hospital.service.ApiService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/hospitals")
+@RequestMapping("/api/hospitalData")
 public class HospitalController {
 
-    private final HospitalService hospitalService;
+    private final ApiService apiService;
 
-    @GetMapping
-    public ResponseEntity<List<HospitalDTO>> getAllHospitals() {
-        List<HospitalDTO> hospitals = hospitalService.findAllHospitals();
-        return ResponseEntity.ok(hospitals);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<HospitalDTO> getHospitalById(@PathVariable Long id) {
-        HospitalDTO hospitalDTO = hospitalService.findHospitalById(id);
-        return ResponseEntity.ok(hospitalDTO);
-    }
-
-    @GetMapping("/specialty/{specialty}")
-    public ResponseEntity<List<HospitalDTO>> getHospitalsBySpecialty(@PathVariable Specialty specialty) {
-        List<HospitalDTO> hospitals = hospitalService.findHospitalsBySpecialty(specialty);
-        return ResponseEntity.ok(hospitals);
-    }
-
-    @PostMapping
-    public ResponseEntity<HospitalDTO> createHospital(@Valid @RequestBody HospitalDTO hospitalDTO) {
-        HospitalDTO createdHospital = hospitalService.saveHospital(hospitalDTO);
-        return new ResponseEntity<>(createdHospital, HttpStatus.CREATED);
+    @GetMapping("/hospitalDataLoad")
+    public void loadHospitalData() {
+        apiService.processAndSaveHospitals();
     }
 }
