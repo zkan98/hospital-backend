@@ -20,10 +20,26 @@ public class HospitalDTO {
     @Size(max = 255, message = "Address는 최대 255자까지 입력할 수 있습니다.")
     private String address;
 
+    @Size(max = 50, message = "Phone number는 최대 50자까지 입력할 수 있습니다.")
+    private String phoneNumber;
+
+    @Size(max = 255, message = "Website URL은 최대 255자까지 입력할 수 있습니다.")
+    private String websiteUrl;
+
     @NotNull(message = "Specialty는 필수입니다.")
-    private Specialty specialty; // 카테고리 정보 추가
+    private Specialty specialty;
 
     @DecimalMin(value = "0.0", inclusive = true, message = "Rating은 최소 0.0 이상이어야 합니다.")
     @DecimalMax(value = "5.0", inclusive = true, message = "Rating은 최대 5.0 이하여야 합니다.")
-    private double rating; // 병원의 평균 평점
+    private double rating;
+
+    @NotNull(message = "Latitude는 필수입니다.")
+    private Double latitude;
+
+    @NotNull(message = "Longitude는 필수입니다.")
+    private Double longitude;
+
+    public String getSpecialtyKorean() {
+        return specialty != null ? specialty.getKoreanName() : "정보 없음";
+    }
 }

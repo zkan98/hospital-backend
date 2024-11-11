@@ -5,10 +5,10 @@ import com.example.hospital_backend.hospital.entity.Hospital;
 import com.example.hospital_backend.photo.entity.Photo;
 import jakarta.persistence.*;
 import java.util.ArrayList;
-import lombok.Getter;
-import lombok.Setter;
 import java.util.Date;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 @Getter
@@ -16,19 +16,20 @@ import org.hibernate.annotations.CreationTimestamp;
 @Entity
 @Table(name = "reviews")
 public class Review {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "hospital_id")
+    @JoinColumn(name = "hospital_id", nullable = false)
     private Hospital hospital;
 
-    private int rating; // 1-5 별점
+    private int rating;
 
     @Lob
     private String content;
@@ -38,5 +39,4 @@ public class Review {
 
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Photo> photos = new ArrayList<>();
-
 }

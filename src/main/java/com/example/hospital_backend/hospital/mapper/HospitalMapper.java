@@ -12,7 +12,4 @@ public interface HospitalMapper {
     HospitalDTO toHospitalDTO(Hospital hospital);
 
     Hospital toHospital(HospitalDTO hospitalDTO);
-
-    // 추가된 매핑 메서드
-    Hospital toHospital(HospitalApiResponseDTO.Item item);
 }

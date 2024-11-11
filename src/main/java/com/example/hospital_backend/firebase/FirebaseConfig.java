@@ -15,6 +15,7 @@ public class FirebaseConfig {
 
     @PostConstruct
     public void init() throws IOException {
+
         FileInputStream serviceAccount =
             new FileInputStream("src/main/resources/hospital-8c922-firebase-adminsdk-d58b7-325babf40f.json");
 

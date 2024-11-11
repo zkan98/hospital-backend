@@ -1,4 +1,4 @@
-// firebase/FirebaseStorageService.java
+// FirebaseStorageService.java
 package com.example.hospital_backend.firebase;
 
 import com.google.cloud.storage.Blob;
@@ -14,14 +14,12 @@ import java.util.UUID;
 public class FirebaseStorageService {
 
     public String uploadImage(MultipartFile file) throws IOException {
-        // 고유한 파일 이름 생성
         String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-
-        // Firebase Storage에 파일 업로드
         Bucket bucket = StorageClient.getInstance().bucket();
         Blob blob = bucket.create(fileName, file.getBytes(), file.getContentType());
 
         // Firebase Storage URL 반환
-        return blob.getMediaLink();
+        return String.format("https://firebasestorage.googleapis.com/v0/b/%s/o/%s?alt=media",
+            bucket.getName(), fileName.replace("/", "%2F"));
     }
 }

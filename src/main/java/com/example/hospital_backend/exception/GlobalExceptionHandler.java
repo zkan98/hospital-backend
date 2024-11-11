@@ -17,60 +17,51 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    // Logger 인스턴스 생성
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    // 특정 예외 처리 (ResourceNotFoundException)
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorDetails> handleResourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
-        // 예외 정보 로깅
-        logger.error("Resource not found: {}", ex.getMessage());
+        logger.error("리소스를 찾을 수 없습니다: {}", ex.getMessage());
 
-        ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), "리소스를 찾을 수 없습니다.", request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
 
-    // 특정 예외 처리 (DuplicateFavoriteException)
     @ExceptionHandler(DuplicateFavoriteException.class)
     public ResponseEntity<ErrorDetails> handleDuplicateFavoriteException(DuplicateFavoriteException ex, WebRequest request) {
-        logger.error("Duplicate favorite: {}", ex.getMessage());
+        logger.error("즐겨찾기가 중복되었습니다: {}", ex.getMessage());
 
-        ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), "즐겨찾기가 중복되었습니다.", request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.CONFLICT);
     }
 
-    // 특정 예외 처리 (DuplicateHospitalException)
     @ExceptionHandler(DuplicateHospitalException.class)
     public ResponseEntity<ErrorDetails> handleDuplicateHospitalException(DuplicateHospitalException ex, WebRequest request) {
-        logger.error("Duplicate hospital: {}", ex.getMessage());
+        logger.error("병원이 중복되었습니다: {}", ex.getMessage());
 
-        ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), "병원이 중복되었습니다.", request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.CONFLICT);
     }
 
-    // 특정 예외 처리 (InvalidReviewException)
     @ExceptionHandler(InvalidReviewException.class)
     public ResponseEntity<ErrorDetails> handleInvalidReviewException(InvalidReviewException ex, WebRequest request) {
-        logger.error("Invalid review: {}", ex.getMessage());
+        logger.error("잘못된 리뷰입니다: {}", ex.getMessage());
 
-        ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), "잘못된 리뷰입니다.", request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 
-    // 특정 예외 처리 (BadRequestException)
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ErrorDetails> handleBadRequestException(BadRequestException ex, WebRequest request) {
-        logger.error("Bad request: {}", ex.getMessage());
+        logger.error("잘못된 요청입니다: {}", ex.getMessage());
 
-        ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), "잘못된 요청입니다.", request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 
-    // 유효성 검사 예외 처리 (MethodArgumentNotValidException)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        // 예외 정보 로깅
-        logger.error("Validation failed: {}", ex.getMessage());
+        logger.error("유효성 검사 실패: {}", ex.getMessage());
 
         Map<String, String> errors = new HashMap<>();
 
@@ -83,13 +74,19 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
-    // 일반 예외 처리 (Exception)
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorDetails> handleGlobalException(Exception ex, WebRequest request) {
-        // 예외 정보 로깅 (스택 트레이스 포함)
-        logger.error("An unexpected error occurred: {}", ex.getMessage(), ex);
+        logger.error("예기치 않은 오류가 발생했습니다: {}", ex.getMessage(), ex);
 
-        ErrorDetails errorDetails = new ErrorDetails(new Date(), "An unexpected error occurred. Please try again later.", request.getDescription(false));
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), "예기치 않은 오류가 발생했습니다. 다시 시도해주세요.", request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorDetails> handleIllegalArgumentException(IllegalArgumentException ex, WebRequest request) {
+        logger.error("잘못된 입력입니다: {}", ex.getMessage());
+
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), "유효하지 않은 파일 형식입니다. 이미지 파일만 업로드할 수 있습니다.", request.getDescription(false));
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 }
