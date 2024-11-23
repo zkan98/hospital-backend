@@ -45,5 +45,4 @@ bin/
 # Ignore application.properties
 src/main/resources/application.properties
 
-# Firebase service account key
-hospital-8c922-firebase-adminsdk-d58b7-325babf40f.json
+/.gitignore

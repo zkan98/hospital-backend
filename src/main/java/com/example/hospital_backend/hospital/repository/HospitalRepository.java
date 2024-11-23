@@ -10,5 +10,7 @@ public interface HospitalRepository extends JpaRepository<Hospital, Long> {
     // 진료 과목별 병원 리스트 조회
     List<Hospital> findBySpecialty(Specialty specialty);
     boolean existsByName(String name);
-    Optional<Hospital> findByName(String name);
+
+    // 이름에 해당 텍스트를 포함하는 병원 검색
+    List<Hospital> findByNameContaining(String name);
 }

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -28,16 +29,20 @@ public class UserController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<String> refreshAccessToken(@RequestBody Map<String, String> request) {
+    public ResponseEntity<Map<String, String>> refreshAccessToken(@RequestBody Map<String, String> request) {
         String refreshToken = request.get("refreshToken");
         String newAccessToken = userService.refreshAccessToken(refreshToken);
-        return ResponseEntity.ok(newAccessToken);
+
+        // 새로운 액세스 토큰 반환
+        Map<String, String> response = new HashMap<>();
+        response.put("accessToken", newAccessToken);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/logout")
     public ResponseEntity<String> logout(@RequestBody Map<String, String> request) {
         String username = request.get("username");
         userService.logout(username);
-        return ResponseEntity.ok("Logged out successfully");
+        return ResponseEntity.ok("로그아웃 완료");
     }
 }

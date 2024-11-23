@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequiredArgsConstructor
@@ -47,6 +48,12 @@ public class HospitalController {
         @RequestParam double longitude) {
         List<HospitalDTO> nearbyHospitals = hospitalService.findNearbyHospitals(latitude, longitude);
         return ResponseEntity.ok(nearbyHospitals);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<HospitalDTO>> searchHospitalsByName(@RequestParam String name) {
+        List<HospitalDTO> hospitals = hospitalService.searchHospitalsByName(name);
+        return ResponseEntity.ok(hospitals);
     }
 
 }

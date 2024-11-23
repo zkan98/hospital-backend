@@ -73,4 +73,11 @@ public class HospitalService {
         return earthRadius * c; // 거리 (km)
     }
 
+    public List<HospitalDTO> searchHospitalsByName(String name) {
+        return hospitalRepository.findByNameContaining(name)
+            .stream()
+            .distinct() // 중복 제거
+            .map(hospitalMapper::toHospitalDTO)
+            .collect(Collectors.toList());
+    }
 }

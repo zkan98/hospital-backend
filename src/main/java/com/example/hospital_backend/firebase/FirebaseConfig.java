@@ -17,11 +17,11 @@ public class FirebaseConfig {
     public void init() throws IOException {
 
         FileInputStream serviceAccount =
-            new FileInputStream("C:\\Users\\Administrator\\Desktop\\firebase\\hospital-8c922-firebase-adminsdk-d58b7-325babf40f.json");
+            new FileInputStream("C:\\Users\\Administrator\\Desktop\\firebase\\hospital-6ccde-firebase-adminsdk-1h0az-7b093be1d3.json");
 
         FirebaseOptions options = new FirebaseOptions.Builder()
             .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-            .setStorageBucket("hospital-8c922.appspot.com") // Storage bucket 설정
+            .setStorageBucket("hospital-6ccde.firebasestorage.app") // Storage bucket 설정
             .build();
 
         FirebaseApp.initializeApp(options);
