@@ -1,4 +1,3 @@
-// firebase/FirebaseConfig.java
 package com.example.hospital_backend.firebase;
 
 import com.google.auth.oauth2.GoogleCredentials;
@@ -15,9 +14,10 @@ public class FirebaseConfig {
 
     @PostConstruct
     public void init() throws IOException {
+        // 환경 변수에서 Firebase 설정 파일 경로 가져오기
+        String firebaseConfigPath = System.getenv("FIREBASE_CONFIG_PATH");
 
-        FileInputStream serviceAccount =
-            new FileInputStream("C:\\Users\\Administrator\\Desktop\\firebase\\hospital-6ccde-firebase-adminsdk-1h0az-7b093be1d3.json");
+        FileInputStream serviceAccount = new FileInputStream(firebaseConfigPath);
 
         FirebaseOptions options = new FirebaseOptions.Builder()
             .setCredentials(GoogleCredentials.fromStream(serviceAccount))
