@@ -9,6 +9,8 @@ import com.example.hospital_backend.hospital.mapper.HospitalMapper;
 import com.example.hospital_backend.hospital.repository.HospitalRepository;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,11 +54,13 @@ public class HospitalService {
 
     public List<HospitalDTO> findNearbyHospitals(double latitude, double longitude) {
         double distanceThreshold = 10.0; // 반경 10km 설정
-        return hospitalRepository.findAll().stream()
-            .filter(hospital -> hospital.getLatitude() != null && hospital.getLongitude() != null) // null 체크 추가
-            .filter(hospital -> calculateDistance(latitude, longitude,
-                hospital.getLatitude(), hospital.getLongitude()) <= distanceThreshold)
-            .limit(40) // 최대 40개의 병원만 반환
+        Pageable pageable = PageRequest.of(0, 40); // 첫 번째 페이지, 40개 병원만 가져오기
+
+        // 데이터베이스에서 거리 조건과 페이징을 적용해 병원 목록 가져오기
+        List<Hospital> hospitals = hospitalRepository.findNearbyHospitals(latitude, longitude, distanceThreshold, pageable);
+
+        // Hospital 데이터를 HospitalDTO로 변환
+        return hospitals.stream()
             .map(hospitalMapper::toHospitalDTO)
             .collect(Collectors.toList());
     }
