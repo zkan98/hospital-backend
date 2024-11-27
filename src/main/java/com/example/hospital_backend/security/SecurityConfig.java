@@ -52,7 +52,7 @@ public class SecurityConfig {
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/users/register", "/api/users/login", "/api/hospitals/**", "/api/reviews/hospital/**").permitAll() // 병원 리스트와 리뷰 조회는 인증 없이 가능
+                .requestMatchers("/api/users/register", "/api/users/login", "/api/hospitals/**", "/api/reviews/hospital/**", "/api/hospitalData/hospitalDataLoad").permitAll() // 병원 리스트와 리뷰 조회는 인증 없이 가능
                 .requestMatchers("/api/reviews/create", "/api/reviews/update", "/api/reviews/delete").authenticated() // 리뷰 작성, 수정, 삭제는 인증 필요
                 .anyRequest().authenticated() // 그 외 다른 모든 요청은 인증 필요
             )
