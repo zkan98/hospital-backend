@@ -75,8 +75,13 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://3.36.148.12", "http://3.36.148.12:3000")); // 백엔드 IP 추가
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        // 허용된 출처 (로컬 및 배포 도메인)
+        configuration.setAllowedOrigins(Arrays.asList(
+            "http://localhost:3000",     // 로컬 개발 환경
+            "http://3.36.148.12",       // 서버 IP (HTTP)
+            "https://healspot.life",    // 배포된 프론트엔드 URL (HTTPS)
+            "https://www.healspot.life" // www 서브도메인 (HTTPS)
+        ));        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));  // 모든 헤더 허용
         configuration.setAllowCredentials(true);  // 인증 정보 허용
 
